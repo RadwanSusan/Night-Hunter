@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<!-- index.html -->
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Night Hunter: Survival</title>
+		<link
+			rel="stylesheet"
+			href="styles.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+			rel="stylesheet" />
+	</head>
+	<body>
+		<div id="gameContainer">
+			<canvas id="gameCanvas"></canvas>
+			<div id="ui">
+				<div class="stats-container">
+					<div class="stats">
+						<div class="health-bar">
+							<div
+								class="health-fill"
+								id="healthFill"></div>
+							<span class="health-text"
+								>HP: <span id="health">100</span>/100</span
+							>
+						</div>
+					</div>
+					<div class="stats">
+						<div class="level-info">
+							Level: <span id="level">1</span>
+							<div class="xp-bar">
+								<div
+									class="xp-fill"
+									id="xpFill"></div>
+							</div>
+							<span class="xp-text"
+								>XP: <span id="xp">0</span>/<span id="xpNeeded"
+									>100</span
+								></span
+							>
+						</div>
+					</div>
+					<div class="stats">
+						<div class="time-score">
+							Time: <span id="time">0:00</span>
+							<br />
+							Score: <span id="score">0</span>
+						</div>
+					</div>
+				</div>
+				<div class="weapons-container">
+					<div
+						id="currentWeapon"
+						class="weapon-slot">
+						<svg
+							viewBox="0 0 100 100"
+							xmlns="http://www.w3.org/2000/svg"
+							class="weapon-icon"
+							id="weaponIcon">
+							<defs>
+								<lineargradient
+									id="bladeGradient"
+									x1="0%"
+									y1="0%"
+									x2="100%"
+									y2="100%">
+									<stop
+										offset="0%"
+										stop-color="#E2E8F0" />
+									<stop
+										offset="50%"
+										stop-color="#CBD5E0" />
+									<stop
+										offset="100%"
+										stop-color="#A0AEC0" />
+								</lineargradient>
+								<lineargradient
+									id="handleGradient"
+									x1="0%"
+									y1="0%"
+									x2="100%"
+									y2="100%">
+									<stop
+										offset="0%"
+										stop-color="#744210" />
+									<stop
+										offset="100%"
+										stop-color="#975A16" />
+								</lineargradient>
+								<filter id="glow">
+									<fegaussianblur
+										stdDeviation="1"
+										result="coloredBlur" />
+									<femerge>
+										<femergenode in="coloredBlur" />
+										<femergenode in="SourceGraphic" />
+									</femerge>
+								</filter>
+							</defs>
+							<path
+								d="M50 15L45 85L55 85L50 15"
+								fill="#6B46C1"
+								opacity="0.3"
+								filter="url(#glow)" />
+							<path
+								d="M47 20L50 15L53 20L53 60L47 60L47 20"
+								fill="url(#bladeGradient)"
+								stroke="#4A5568"
+								stroke-width="0.5" />
+							<line
+								x1="50"
+								y1="15"
+								x2="50"
+								y2="60"
+								stroke="#4A5568"
+								stroke-width="0.5" />
+							<path
+								d="M35 60H65V65H35V60"
+								fill="#4A5568"
+								stroke="#2D3748"
+								stroke-width="0.5" />
+							<path
+								d="M45 65H55V80H45V65"
+								fill="url(#handleGradient)"
+								stroke="#2D3748"
+								stroke-width="0.5" />
+							<circle
+								cx="50"
+								cy="85"
+								r="4"
+								fill="#4A5568"
+								stroke="#2D3748"
+								stroke-width="0.5" />
+							<circle
+								cx="50"
+								cy="70"
+								r="2"
+								fill="#4A5568" />
+							<circle
+								cx="50"
+								cy="75"
+								r="2"
+								fill="#4A5568" />
+							<path
+								d="M48 20L49 17L50 20"
+								fill="white"
+								opacity="0.5" />
+						</svg>
+						<span class="weapon-level"
+							>Lv. <span id="weaponLevel">1</span></span
+						>
+					</div>
+				</div>
+				<div
+					class="powerups-container"
+					id="powerupsContainer"></div>
+			</div>
+			<div
+				id="startMenu"
+				class="menu">
+				<div class="menu-content">
+					<h1>Night Hunter: Survival</h1>
+					<p class="subtitle">Survive the endless night</p>
+					<button
+						id="startButton"
+						class="menu-button">
+						Start Game
+					</button>
+					<button
+						id="tutorialButton"
+						class="menu-button">
+						How to Play
+					</button>
+					<button
+						id="settingsButton"
+						class="menu-button">
+						Settings
+					</button>
+				</div>
+			</div>
+			<div
+				id="pauseMenu"
+				class="menu hidden">
+				<div class="menu-content">
+					<h2>Game Paused</h2>
+					<button
+						id="resumeButton"
+						class="menu-button">
+						Resume
+					</button>
+					<button
+						id="restartButton"
+						class="menu-button">
+						Restart
+					</button>
+					<button
+						id="quitButton"
+						class="menu-button">
+						Quit to Menu
+					</button>
+				</div>
+			</div>
+			<div
+				id="levelUpMenu"
+				class="menu hidden">
+				<div class="menu-content">
+					<h2>Level Up!</h2>
+					<div
+						id="upgradeOptions"
+						class="upgrade-options"></div>
+				</div>
+			</div>
+			<div
+				id="gameOverMenu"
+				class="menu hidden">
+				<div class="menu-content">
+					<h2>Game Over</h2>
+					<div class="stats-summary">
+						<p>Time Survived: <span id="finalTime">0:00</span></p>
+						<p>Final Score: <span id="finalScore">0</span></p>
+						<p>Enemies Defeated: <span id="enemiesDefeated">0</span></p>
+						<p>Level Reached: <span id="finalLevel">1</span></p>
+					</div>
+					<button
+						id="playAgainButton"
+						class="menu-button">
+						Play Again
+					</button>
+					<button
+						id="mainMenuButton"
+						class="menu-button">
+						Main Menu
+					</button>
+				</div>
+			</div>
+			<div
+				id="tutorialDialog"
+				class="menu hidden">
+				<div class="menu-content">
+					<h2>How to Play</h2>
+					<div class="tutorial-content">
+						<p>🎮 Move: WASD or Arrow Keys</p>
+						<p>⚔️ Attack: Automatic</p>
+						<p>💨 Dash: Space</p>
+						<p>⏸️ Pause: ESC</p>
+						<p>Collect XP orbs to level up and choose new abilities!</p>
+					</div>
+					<button
+						id="closeTutorialButton"
+						class="menu-button">
+						Got it!
+					</button>
+				</div>
+			</div>
+			<div
+				id="settingsDialog"
+				class="menu hidden">
+				<div class="menu-content">
+					<h2>Settings</h2>
+					<div class="settings-content">
+						<div class="setting-item">
+							<label for="soundVolume">Sound Effects</label>
+							<input
+								type="range"
+								id="soundVolume"
+								min="0"
+								max="100"
+								value="100" />
+						</div>
+						<div class="setting-item">
+							<label for="musicVolume">Music</label>
+							<input
+								type="range"
+								id="musicVolume"
+								min="0"
+								max="100"
+								value="100" />
+						</div>
+						<div class="setting-item">
+							<label for="particlesEnabled">Particles</label>
+							<input
+								type="checkbox"
+								id="particlesEnabled"
+								checked />
+						</div>
+					</div>
+					<button
+						id="closeSettingsButton"
+						class="menu-button">
+						Save &amp; Close
+					</button>
+				</div>
+			</div>
+			<div
+				id="loadingScreen"
+				class="loading-screen">
+				<div class="loading-content">
+					<h2>Loading...</h2>
+					<div class="loading-bar">
+						<div id="loadingProgress"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script
+			src="main.js"
+			type="module"
+			defer></script>
+	</body>
+</html>

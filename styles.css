@@ -1,0 +1,312 @@
+/* styles.css */
+:root {
+	--primary-color: #6b46c1;
+	--secondary-color: #805ad5;
+	--danger-color: #e53e3e;
+	--background-dark: #0f0f1a;
+	--ui-background: rgba(42, 41, 61, 0.9);
+	--text-color: #ffffff;
+	--border-radius: 8px;
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	background: var(--background-dark);
+	color: var(--text-color);
+	font-family: 'Poppins', sans-serif;
+	overflow: hidden;
+	line-height: 1.6;
+	margin: 0;
+	padding: 0;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+#gameContainer {
+	position: relative;
+	flex: 1;
+	width: 100%;
+	background: var(--background-dark);
+	display: flex;
+	background: radial-gradient(
+			circle at center,
+			rgba(107, 70, 193, 0.2) 0%,
+			transparent 60%
+		),
+		linear-gradient(rgba(15, 15, 26, 0.95), rgba(15, 15, 26, 0.95));
+}
+#gameCanvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border: 2px solid rgba(107, 70, 193, 0.3);
+	border-radius: var(--border-radius);
+	box-shadow: 0 0 20px rgba(107, 70, 193, 0.2);
+}
+#ui {
+	position: relative;
+	width: 100%;
+	padding: 10px 20px;
+	z-index: 2;
+}
+.stats-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 15px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+.stats {
+	background: var(--ui-background);
+	padding: 15px;
+	border-radius: var(--border-radius);
+	backdrop-filter: blur(5px);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.health-bar {
+	width: 100%;
+	height: 20px;
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
+	position: relative;
+	overflow: hidden;
+}
+.health-fill {
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg, #48bb78, #68d391);
+	transition: width 0.3s ease;
+}
+.health-text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-weight: 600;
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+.xp-bar {
+	width: 100%;
+	height: 10px;
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+	margin: 5px 0;
+	overflow: hidden;
+}
+.xp-fill {
+	width: 0%;
+	height: 100%;
+	background: linear-gradient(90deg, #6b46c1, #805ad5);
+	transition: width 0.3s ease;
+}
+.weapons-container {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	gap: 10px;
+}
+.weapon-slot {
+	background: var(--ui-background);
+	padding: 10px;
+	border-radius: var(--border-radius);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 80px;
+}
+.weapon-slot img {
+	width: 40px;
+	height: 40px;
+	object-fit: contain;
+}
+.powerups-container {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.menu {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(15, 15, 26, 0.95);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 100;
+}
+.menu-content {
+	background: var(--ui-background);
+	padding: 40px;
+	border-radius: var(--border-radius);
+	text-align: center;
+	max-width: 500px;
+	width: 90%;
+	backdrop-filter: blur(10px);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+.menu h1 {
+	font-size: 2.5em;
+	margin-bottom: 10px;
+	background: linear-gradient(45deg, #6b46c1, #805ad5);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+.subtitle {
+	color: rgba(255, 255, 255, 0.8);
+	margin-bottom: 30px;
+}
+.menu-button {
+	background: var(--primary-color);
+	color: white;
+	border: none;
+	padding: 12px 24px;
+	border-radius: var(--border-radius);
+	font-size: 1.1em;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	margin: 10px;
+	width: 200px;
+	font-family: 'Poppins', sans-serif;
+}
+.menu-button:hover {
+	background: var(--secondary-color);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(107, 70, 193, 0.3);
+}
+.upgrade-options {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 15px;
+	margin-top: 20px;
+}
+.loading-screen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--background-dark);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+.loading-bar {
+	width: 300px;
+	height: 10px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	margin-top: 20px;
+}
+#loadingProgress {
+	width: 0%;
+	height: 100%;
+	background: linear-gradient(
+		90deg,
+		var(--primary-color),
+		var(--secondary-color)
+	);
+	transition: width 0.3s ease;
+}
+.hidden {
+	display: none !important;
+}
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.05);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@media (max-width: 768px) {
+	.stats-container {
+		grid-template-columns: 1fr;
+	}
+	.menu-content {
+		padding: 20px;
+		width: 95%;
+	}
+	.menu h1 {
+		font-size: 2em;
+	}
+	.menu-button {
+		width: 100%;
+		margin: 5px 0;
+	}
+}
+.weapons-container {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	gap: 10px;
+}
+.weapon-slot {
+	background: rgba(42, 41, 61, 0.9);
+	padding: 15px;
+	border-radius: 12px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	backdrop-filter: blur(5px);
+	border: 1px solid rgba(107, 70, 193, 0.3);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 0 10px rgba(107, 70, 193, 0.2);
+	transition: all 0.3s ease;
+}
+.weapon-slot:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2), 0 0 15px rgba(107, 70, 193, 0.3);
+}
+.weapon-icon {
+	width: 50px;
+	height: 50px;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+.weapon-level {
+	color: #e2e8f0;
+	font-size: 0.9em;
+	font-weight: 600;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+@keyframes weaponLevelUp {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+.weapon-slot.level-up {
+	animation: weaponLevelUp 0.5s ease;
+}
