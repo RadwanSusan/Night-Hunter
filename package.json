@@ -15,5 +15,8 @@
 	"module": "main.js",
 	"peerDependencies": {
 		"typescript": "^5.0.0"
+	},
+	"overrides": {
+		"esbuild": "0.28.1"
 	}
 }
