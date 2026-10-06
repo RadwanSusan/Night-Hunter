@@ -15,5 +15,9 @@
 	"module": "main.js",
 	"peerDependencies": {
 		"typescript": "^5.0.0"
+	},
+	"overrides": {
+		"nanoid": "5.1.16",
+		"source-map-js": "1.2.2"
 	}
 }
